@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HỒ SƠ • THẦY NGỌC BÌNH</title>
+  <meta name="description" content="Giới thiệu về Thầy Ngọc Bình: thông tin, liên hệ, lĩnh vực giảng dạy." />
+  <style>
+    :root{
+      --bg1: #0b1020;
+      --bg2: #0f0525;
+      --neon: #7afcff;
+      --lime: #b6ff00;
+      --accent: #ccff00;
+      --text: 245 248 255;
+      --card: 16 24 48;
+      --shadow: 0 10px 35px rgba(0,0,0,.4);
+    }
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      color: rgb(var(--text));
+      background: radial-gradient(1200px 1200px at 10% 10%, #121a3a 10%, transparent 50%),
+                  radial-gradient(1200px 1200px at 90% 90%, #1a0b32 10%, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x: hidden;
+    }
+    .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .gradient {
+      position: absolute; inset: -25vmax;
+      background: conic-gradient(from 0deg at 50% 50%, #00111a, #101040, #2a004a, #00111a);
+      filter: blur(80px) saturate(150%);
+      animation: spin 24s linear infinite;
+      opacity: .55;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg) scale(1.05); } 100% { transform: rotate(360deg) scale(1.05); } }
+    canvas#fx { position: absolute; inset: 0; opacity: .5; }
+
+    .wrap { position: relative; z-index: 1; min-height: 100dvh; }
+    .topbar {
+      position: fixed; top: 12px; left: 12px; z-index: 2;
+    }
+/* Nút home thống nhất phong cách neon tròn */
+a.home {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--neon);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow:
+    0 0 8px rgba(122, 252, 255, 0.5),
+    0 0 18px rgba(122, 252, 255, 0.4);
+  border: 2px solid rgba(122, 252, 255, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.25s ease;
+  animation: homePulse 3s ease-in-out infinite;
+  z-index: 3;
+}
+
+a.home:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+  box-shadow:
+    0 0 14px rgba(122, 252, 255, 0.8),
+    0 0 28px rgba(122, 252, 255, 0.6),
+    0 0 42px rgba(122, 252, 255, 0.4);
+}
+
+/* Hiệu ứng nhịp sáng */
+@keyframes homePulse {
+  0%, 100% {
+    box-shadow:
+      0 0 8px rgba(122, 252, 255, 0.5),
+      0 0 18px rgba(122, 252, 255, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(122, 252, 255, 0.8),
+      0 0 28px rgba(122, 252, 255, 0.6),
+      0 0 42px rgba(122, 252, 255, 0.4);
+  }
+}
+
+
+    main {
+      display: grid; place-items: center;
+      padding: 30px 16px 60px;
+    }
+    .container { width: min(1000px, 100%); }
+
+    h1 { margin: 0 0 14px; font-weight: 900; font-size: clamp(1.4rem, 1.6vw + 1rem, 2.1rem); color: #fff; text-align: center; }
+    p.lead { margin: 0 0 20px; opacity: .85; text-align: center; }
+
+    .cards {
+      display: grid; gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      margin-top: 10px;
+    }
+    .card {
+      background: rgba(var(--card), .28);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      color: #e7f9ff;
+      backdrop-filter: blur(2px);
+    }
+    .card h2 {
+      margin: 0 0 10px; font-size: 1.1rem; color: var(--accent);
+    }
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* nút nằm bên phải */
+  margin: 6px 0;
+  background: rgba(255,255,255,0.05);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+    .cta {
+      display: flex; justify-content: center; gap: 10px; margin-top: 22px; flex-wrap: wrap;
+    }
+    .btn {
+      --c1: var(--lime); --c2: var(--neon);
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px; border-radius: 999px;
+      color: #09131a; font-weight: 800; text-decoration: none;
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+      border: none; cursor: pointer;
+      box-shadow: 0 8px 28px rgba(0,0,0,.35);
+      transition: transform .15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+  
+
+.btn.btn-small {
+  font-size: 0.85em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  flex-shrink: 0; /* không bị co nút */
+}
+
+.list li span {
+  flex: 1; /* giữ text sang trái */
+}.btn.zalo {
+  background: linear-gradient(90deg, #0084ff, #00bfff);
+  color: white;
+  font-weight: 700;
+}
+
+.zalo-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-radius: 4px;
+  background-color: white;
+  padding: 1px;
+}
+
+</style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <div class="gradient"></div>
+    <canvas id="fx" aria-hidden="true"></canvas>
+  </div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <a class="home" href="index.html" aria-label="Về trang chủ">🏠</a>
+    </div>
+
+    <main>
+      <div class="container">
+        <h1>HỒ SƠ THẦY NGỌC BÌNH</h1>
+        <p class="lead">Giảng dạy Robotics, Lập trình, và ứng dụng công nghệ dành cho học sinh. Hỗ trợ các dự án STEM, sáng tạo KHKT. </p>
+
+        <section class="cards">
+          <article class="card">
+            <h2>Liên hệ</h2>
+            <ul class="list">
+              <li> <span>📞 Điện thoại:</span> <a class="btn btn-small" href="sms:0931326568">0931.32.65.68</a> </li>
+              <li>✉️ Email:&nbsp; <span style="opacity:.9"> ngocbinh.203@gmail.com</span></li>
+              <li>
+  <span>💬 Zalo:</span>
+  <a class="btn btn-small zalo" href="https://zalo.me/84931326568" target="_blank" rel="noopener">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="zalo-icon">
+    Chat Zalo
+  </a>
+</li>
+          </article>
+
+          <article class="card">
+            <h2>LĨNH VỰC GIẢNG DẬY</h2>
+            <ul class="list">
+              <li><span>LEGO EV3 / SPIKE</span> <a class="btn btn-small" href="lego_bh.html">📺 YouTube</a></li>
+              <li><span>Python</span> <a class="btn btn-small" href="python_bh.html">📺 YouTube</a></li>
+              <li><span>Kodular</span> <a class="btn btn-small" href="kodular_bh.html">📺 YouTube</a></li>
+              <li><span>Arduino</span> <a class="btn btn-small" href="arduino_bh.html">📺 YouTube</a></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h2>ĐỊNH HƯỚNG LỚP HỌC</h2>
+            <ul class="list">
+              <li>🤖 Code không khó — khó là đừng ngủ quên khi debug!</li>
+              <li>💡 Robot không ngủ, còn mình thì… cũng không dám ngủ!</li>
+              <li>🚀 Lập trình hôm nay, điều khiển thế giới ngày mai.</li>
+            </ul>
+          </article>
+        </section>
+
+        <div class="cta">
+          <a class="btn" href="https://forms.gle/Ec8eMDfNeWAojdrK8" target="_blank" rel="noopener">📝 Đăng ký khóa học</a>
+          <a class="btn" href="tel:0931326568">📞 Gọi ngay</a>
+        </div>
+        </div>
+    </main>
+  </div>
+
+  <script>
+    (function(){
+      const c = document.getElementById('fx');
+      const ctx = c.getContext('2d');
+      let w, h, dpr;
+      const N = 70;
+      const pts = [];
+      function resize(){
+        dpr = window.devicePixelRatio || 1;
+        w = c.width = innerWidth * dpr;
+        h = c.height = innerHeight * dpr;
+        c.style.width = innerWidth+'px';
+        c.style.height = innerHeight+'px';
+      }
+      function init(){
+        pts.length = 0;
+        for(let i=0;i<N;i++){
+          pts.push({
+            x: Math.random()*w, y: Math.random()*h,
+            vx: (Math.random()-.5)*0.12*dpr,
+            vy: (Math.random()-.5)*0.12*dpr,
+            r: (Math.random()*1.6+0.6)*dpr
+          });
+        }
+      }
+      function step(){
+        ctx.clearRect(0,0,w,h);
+        ctx.fillStyle = 'rgba(255,255,255,.7)';
+        for(const p of pts){
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0||p.x>w) p.vx*=-1;
+          if(p.y<0||p.y>h) p.vy*=-1;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+        }
+        requestAnimationFrame(step);
+      }
+      addEventListener('resize', ()=>{ resize(); init(); });
+      resize(); init(); step();
+    })();
+  </script>
+</body>
+</html>

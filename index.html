@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CÁC KHÓA HỌC STEM • THẦY NGỌC BÌNH</title>
+  <meta name="description" content="Danh mục các khóa học STEM: LEGO EV3, Python, Kodular, Arduino." />
+  <style>
+    :root {
+      --bg1: #0b1020;
+      --bg2: #0f0525;
+      --neon: #7afcff;
+      --lime: #b6ff00;
+      --accent: #ccff00; /* vàng-xanh như bản gốc */
+      --text: 245 248 255;
+      --card: 16 24 48;
+      --shadow: 0 10px 35px rgba(0,0,0,.4);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      color: rgb(var(--text));
+      background: radial-gradient(1200px 1200px at 10% 10%, #121a3a 10%, transparent 50%),
+                  radial-gradient(1200px 1200px at 90% 90%, #1a0b32 10%, transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x: hidden;
+    }
+    .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .gradient {
+      position: absolute; inset: -25vmax;
+      background: conic-gradient(from 0deg at 50% 50%, #00111a, #101040, #2a004a, #00111a);
+      filter: blur(80px) saturate(150%);
+      animation: spin 24s linear infinite;
+      opacity: .55;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg) scale(1.05); } 100% { transform: rotate(360deg) scale(1.05); } }
+    canvas#fx { position: absolute; inset: 0; opacity: .5; }
+
+    .wrap { position: relative; z-index: 1; min-height: 100dvh; display: grid; place-items: center; padding: 10px 16px 20px; }
+    .container { width: min(1100px, 100%); }
+
+    header { text-align: center; margin-bottom: 22px; }
+    h1 {
+      margin: 0 0 10px; font-weight: 800;
+      font-size: clamp(1.4rem, 2.8vw + 1rem, 2.6rem);
+      letter-spacing: .6px;
+      color: #fff;
+      text-shadow: 0 6px 30px rgba(0,0,0,.35);
+      line-height: 1.2;
+    }
+    .brand-link {
+      color: var(--neon);
+      text-decoration: none;
+      font-weight: 900;
+      border-bottom: 2px dotted transparent;
+    }
+    .brand-link:hover, .brand-link:focus-visible {
+      border-bottom-color: var(--neon);
+      outline: none;
+    }
+    /* Xuống dòng riêng và căn giữa trên màn hình dọc */
+    .brand-break { white-space: nowrap; }
+    @media (max-width: 640px) {
+      .brand-break { display: block; margin-top: 4px; }
+      .brand-link { display: inline-block; }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      width: min(1400px, 95%);
+      gap: 16px;
+      margin-top: 18px;
+      perspective: 1200px;
+    }
+    a.card {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      text-decoration: none;
+      background: rgba(var(--card), .28);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      color: rgb(var(--text));
+      transform-style: preserve-3d;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      position: relative; overflow: hidden; isolation: isolate;
+      opacity: 0; animation: fadeUp .6s ease forwards;
+    }
+    .grid .card:nth-child(1){ animation-delay: .05s; }
+    .grid .card:nth-child(2){ animation-delay: .1s; }
+    .grid .card:nth-child(3){ animation-delay: .15s; }
+    .grid .card:nth-child(4){ animation-delay: .2s; }
+
+    a.card::before {
+      content: "";
+      position: absolute; inset: -2px;
+      background: radial-gradient(180px 180px at var(--mx, 50%) var(--my, 50%), rgba(122,252,255,.25), transparent 55%);
+      z-index: -1;
+      transition: background .15s linear;
+    }
+    a.card img {
+      width: 84px; height: 84px; object-fit: contain; border-radius: 12px;
+      transform: translateZ(30px);
+    }
+    a.card p {
+      margin: 0; line-height: 1.25;
+      font-weight: 800; font-size: 1.1rem;
+      transform: translateZ(22px);
+      color: var(--accent);
+      text-shadow: 0 1px 0 rgba(0,0,0,.25);
+    }
+    a.card:hover, a.card:focus-visible {
+      background: rgba(var(--card), .38);
+      border-color: rgba(255,255,255,.18);
+      transform: translateY(-4px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      box-shadow: 0 18px 60px rgba(46, 255, 207, .2);
+      outline: none;
+    }
+    a.card:focus-visible {
+      box-shadow: 0 0 0 3px rgba(4, 255, 0, 0.7), 0 18px 60px rgba(46, 255, 207, .2);
+    }
+
+    .cta { display: flex; justify-content: center; gap: 10px; margin-top: 20px; margin-bottom: 20px; flex-wrap: wrap; position: relative; z-index: 2; }
+    .btn {
+      --c1: var(--lime); --c2: var(--neon);
+      position: relative; display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px; border-radius: 999px;
+      color: #09131a; font-weight: 800; text-decoration: none;
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+      border: none; cursor: pointer;
+      box-shadow: 0 8px 28px rgba(0,0,0,.35);
+      transition: transform .15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gradient { animation: none; }
+      .grid .card { animation: none; opacity: 1; }
+      a.card, .btn { transition: none; }
+    }
+    .brand-link{
+  display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  /* nhấp nháy nhẹ toàn cụm */
+  animation: brandPulse 2.6s ease-in-out infinite;
+  will-change: filter, transform;
+}
+.brand-link:hover{ transform: translateY(-1px) scale(1.02); }
+
+.brand-avatar{
+  width:36px; height:36px; border-radius:50%;
+  border:2px solid currentColor;           /* viền theo màu chữ hiện có */
+  background: rgba(255,255,255,.06);
+}
+
+.brand-text{ 
+  /* giữ nguyên màu: dùng màu kế thừa */
+  color: inherit;
+  text-transform: uppercase; letter-spacing:.5px;
+  /* nhấp nháy ánh sáng cho chữ */
+  animation: brandGlow 2.6s ease-in-out infinite;
+}
+
+/* Hiệu ứng ánh sáng */
+@keyframes brandPulse{
+  0%,100%{ filter:none; }
+  50%{ filter: drop-shadow(0 0 14px currentColor); }
+}
+@keyframes brandGlow{
+  0%,100%{ text-shadow: 0 0 0 currentColor; }
+  50%{ text-shadow: 0 0 14px currentColor; }
+}
+
+/* Tôn trọng người dùng không thích chuyển động */
+@media (prefers-reduced-motion: reduce){
+  .brand-link,.brand-text{ animation:none; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <div class="gradient"></div>
+    <canvas id="fx" aria-hidden="true"></canvas>
+  </div>
+
+  <main class="wrap">
+    <div class="container">
+      <header>
+        <h1>
+  CÁC KHÓA HỌC STEM
+  <span class="brand-break">
+    <a class="brand-link" href="infor.html"
+       aria-label="Xem hồ sơ giới thiệu thầy Ngọc Bình"
+       title="Bấm để xem thông tin Thầy Ngọc Bình">
+      <img src="me_icon.png" alt="Thầy Ngọc Bình" class="brand-avatar">
+      <span class="brand-text">THẦY NGỌC BÌNH</span>
+    </a>
+  </span>
+</h1>
+
+        <p class="sub">ROBOTICS • LẬP TRÌNH • ỨNG DỤNG THỰC TẾ</p>
+      </header>
+
+      <nav class="grid" aria-label="Danh mục khóa học">
+        <a class="card" href="lego.html">
+          <img src="Logo EV3 1.png" alt="Biểu tượng LEGO EV3" loading="lazy" decoding="async" />
+          <p>LẮP RÁP &amp; LẬP TRÌNH LEGO EV3/SPIKE</p>
+        </a>
+        <a class="card" href="python.html">
+          <img src="Logo Python.png" alt="Biểu tượng Python" loading="lazy" decoding="async" />
+          <p>LẬP TRÌNH PYTHON CƠ BẢN (TIN HỌC TRẺ)</p>
+        </a>
+        <a class="card" href="kodular.html">
+          <img src="Logo Kodular 2.png" alt="Biểu tượng Kodular" loading="lazy" decoding="async" />
+          <p>LẬP TRÌNH ỨNG DỤNG DI ĐỘNG VỚI KODULAR</p>
+        </a>
+        <a class="card" href="arduino.html">
+          <img src="Logo Arduino.png" alt="Biểu tượng Arduino" loading="lazy" decoding="async" />
+          <p>LẬP TRÌNH ĐIỀU KHIỂN ROBOT VỚI ARDUINO</p>
+        </a>
+      </nav>
+
+      <div class="cta" role="group" aria-label="Liên kết nhanh">
+        <a class="btn" href="https://forms.gle/Ec8eMDfNeWAojdrK8" target="_blank" rel="noopener">📝 Đăng ký </a>
+        <a class="btn" href="tel:0931326568" aria-label="Gọi điện cho Thầy Ngọc BÌnh">📞 0931.32.65.68</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const c = document.getElementById('fx');
+      const ctx = c.getContext('2d');
+      let w, h, dpr;
+      const N = 80;
+      const pts = [];
+      function resize(){
+        dpr = window.devicePixelRatio || 1;
+        w = c.width = innerWidth * dpr;
+        h = c.height = innerHeight * dpr;
+        c.style.width = innerWidth+'px';
+        c.style.height = innerHeight+'px';
+      }
+      function init(){
+        pts.length = 0;
+        for(let i=0;i<N;i++){
+          pts.push({
+            x: Math.random()*w, y: Math.random()*h,
+            vx: (Math.random()-.5)*0.12*dpr,
+            vy: (Math.random()-.5)*0.12*dpr,
+            r: (Math.random()*1.6+0.6)*dpr
+          });
+        }
+      }
+      function step(){
+        ctx.clearRect(0,0,w,h);
+        ctx.fillStyle = 'rgba(255,255,255,.7)';
+        for(const p of pts){
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0||p.x>w) p.vx*=-1;
+          if(p.y<0||p.y>h) p.vy*=-1;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+        }
+        requestAnimationFrame(step);
+      }
+      addEventListener('resize', ()=>{ resize(); init(); });
+      resize(); init(); step();
+    })();
+
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const clamp = (v, min, max)=> Math.min(max, Math.max(min, v));
+    cards.forEach(card => {
+      let bounds = null;
+      function update(e){
+        if(!bounds) bounds = card.getBoundingClientRect();
+        const x = e.clientX ?? (e.touches && e.touches[0].clientX);
+        const y = e.clientY ?? (e.touches && e.touches[0].clientY);
+        if(x==null) return;
+        const mx = clamp((x - bounds.left) / bounds.width, 0, 1);
+        const my = clamp((y - bounds.top) / bounds.height, 0, 1);
+        const ry = (mx - .5) * 10;
+        const rx = (my - .5) * -8;
+        card.style.setProperty('--mx', (mx*100)+'%');
+        card.style.setProperty('--my', (my*100)+'%');
+        card.style.setProperty('--rx', rx+'deg');
+        card.style.setProperty('--ry', ry+'deg');
+      }
+      function reset(){
+        bounds = null;
+        card.style.removeProperty('--rx');
+        card.style.removeProperty('--ry');
+        card.style.removeProperty('--mx');
+        card.style.removeProperty('--my');
+      }
+      card.addEventListener('mousemove', update);
+      card.addEventListener('touchmove', update, {passive:true});
+      card.addEventListener('mouseleave', reset);
+      card.addEventListener('touchend', reset);
+      card.addEventListener('touchcancel', reset);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
